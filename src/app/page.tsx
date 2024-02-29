@@ -4,14 +4,6 @@ import { WavyBackground } from "../components/ui/wavy-background";
 import { BentoGrid, BentoGridItem } from "../components/ui/bento-grid";
 import GithubButton from "./components/buttons/GithubButton";
 
-const c = {
-  dark_pink: "#ff00bb",
-  pink: "#f576be",
-  light_pink: "#ffb3de",
-  white: "#FFFFFF",
-};
-const waveColors = [c.pink, c.white, c.dark_pink, c.light_pink, c.white];
-
 function LandingPage() {
   return (
     <main className="flex flex-col w-screen h-screen justify-center items-center p-10 space-y-10">
@@ -47,7 +39,7 @@ function LandingPage() {
 export default function WavyLandingPage() {
   return (
     <main className="flex flex-col">
-      <WavyBackground colors={waveColors}>
+      <WavyBackground backgroundFill="white">
         <LandingPage />
       </WavyBackground>
     </main>
