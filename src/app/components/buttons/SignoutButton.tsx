@@ -11,6 +11,9 @@ const SigninButton = () => {
     const { data: session } = useSession();
 
     if (session && session.user) {
+
+        console.log(session.user)
+
         return (
             <div className="items-center flex flex-row pt-1">
                 <p

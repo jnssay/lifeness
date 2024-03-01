@@ -33,7 +33,7 @@ function Home() {
 export default function WavyHome() {
   return (
     <main className="flex flex-col">
-      <WavyBackground backgroundFill="#fce1f9">
+      <WavyBackground>
         <Home />
       </WavyBackground>
     </main>

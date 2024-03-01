@@ -7,7 +7,7 @@ import GithubButton from "./components/buttons/GithubButton";
 function LandingPage() {
   return (
     <main className="flex flex-col w-screen h-screen justify-center items-center p-10 space-y-10">
-      <div className="flex flex-col h-1/3 w-80 sm:w-full max-w-[1000px] relative hover:scale-105 transition">
+      <div className="flex flex-col h-1/3 w-80 min-h-[100px] sm:w-full max-w-[1200px] relative hover:scale-105 transition">
         <Image
           className="hidden sm:flex"
           src="/lifeness.svg"
@@ -20,7 +20,7 @@ function LandingPage() {
           <Image src="/logo_small.svg" alt="Lifeness Logo" fill priority />
         </div>
       </div>
-      <BentoGrid className="w-80 sm:w-full max-w-[1000px]">
+      <BentoGrid className="w-80 sm:w-full max-w-[1200px]">
         <BentoGridItem className="sm:col-span-5 md:col-span-4 sm:row-span-3" />
         <BentoGridItem className="sm:col-span-7 md:col-span-8 sm:row-span-2 sm:hover:scale-105" />
         <BentoGridItem
@@ -39,7 +39,7 @@ function LandingPage() {
 export default function WavyLandingPage() {
   return (
     <main className="flex flex-col">
-      <WavyBackground backgroundFill="white">
+      <WavyBackground>
         <LandingPage />
       </WavyBackground>
     </main>

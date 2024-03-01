@@ -103,7 +103,7 @@ export const WavyBackground = ({
   return (
     <div
       className={cn(
-        "h-screen flex flex-col items-center justify-center",
+        "h-full flex flex-col items-center justify-center",
         containerClassName
       )}
     >
@@ -111,10 +111,12 @@ export const WavyBackground = ({
         className="absolute inset-0 z-0"
         ref={canvasRef}
         id="canvas"
+        width="100%"
+        height="100%"
       ></canvas>
       <div className={cn("relative z-10", className)} {...props}>
         {children}
       </div>
-    </div>
+    </div >
   );
 };
