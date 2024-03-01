@@ -1,6 +1,7 @@
 import SignoutButton from "../components/buttons/SignoutButton";
 import Image from "next/image";
 import { WavyBackground } from "@/components/ui/wavy-background";
+import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
 
 function Home() {
   return (
@@ -19,13 +20,13 @@ function Home() {
 
         <SignoutButton />
       </div>
-      <div className="w-screen h-full flex flex-row">
-        <div className="flex flex-col content-start w-1/3 h-full p-5 space-y-5"></div>
 
-        <div className="flex flex-col items-center justify-center w-1/3 h-full p-5"></div>
-
-        <div className="flex flex-col items-center justify-center w-1/3 h-full p-5"></div>
-      </div>
+      <BentoGrid className="w-80 sm:w-full max-w-[1200px]">
+        <BentoGridItem className="sm:col-span-5 md:col-span-4 sm:row-span-3" />
+        <BentoGridItem className="sm:col-span-7 md:col-span-8 sm:row-span-2 sm:hover:scale-105" />
+        <BentoGridItem className="hidden md:flex md:col-span-3" />
+        <BentoGridItem className="order-first sm:order-none sm:col-span-7 md:col-span-5" />
+      </BentoGrid>
     </main>
   );
 }
