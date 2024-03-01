@@ -28,7 +28,7 @@ function LandingPage() {
           header={<GithubButton />}
         />
         <BentoGridItem
-          className="order-first sm:order-none sm:col-span-7 md:col-span-8 md:col-span-5"
+          className="order-first sm:order-none sm:col-span-7 md:col-span-5"
           header={<SigninButton />}
         />
       </BentoGrid>
