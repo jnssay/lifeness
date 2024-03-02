@@ -5,9 +5,9 @@ import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
 
 function Home() {
   return (
-    <main className="w-screen h-screen flex flex-col">
-      <div className="w-full flex flex-row justify-between px-8">
-        <div className="flex w-48 relative flex-row">
+    <main className="flex flex-col w-screen h-screen items-center px-8">
+      <div className="flex flex-row w-full justify-between py-4">
+        <div className="flex flex-row w-48 relative">
           <a
             className="pointer-events-none flex place-flex-col items-center p-8 lg:pointer-events-auto"
             href="https://github.com/jnssay/lifeness"
@@ -21,22 +21,28 @@ function Home() {
         <SignoutButton />
       </div>
 
-      <BentoGrid className="w-80 sm:w-full max-w-[1200px]">
-        <BentoGridItem className="sm:col-span-5 md:col-span-4 sm:row-span-3" />
-        <BentoGridItem className="sm:col-span-7 md:col-span-8 sm:row-span-2 sm:hover:scale-105" />
-        <BentoGridItem className="hidden md:flex md:col-span-3" />
-        <BentoGridItem className="order-first sm:order-none sm:col-span-7 md:col-span-5" />
+      <BentoGrid className="w-full mx-auto">
+        <BentoGridItem className="col-span-2 row-span-3" />
+        <BentoGridItem className="col-span-3 row-span-3" />
+        <BentoGridItem className="col-span-2 row-span-5" />
+        <BentoGridItem className="col-span-2 row-span-7" />
+        <BentoGridItem className="col-span-3 row-span-4" />
+        <BentoGridItem className="col-span-5 row-span-5" />
+        <BentoGridItem className="col-span-3 row-span-3" />
+        <BentoGridItem className="col-span-2 row-span-5" />
+        <BentoGridItem className="col-span-3 row-span-3" />
+        <BentoGridItem className="col-span-2 row-span-3" />
+        <BentoGridItem className="col-span-5 row-span-2" />
       </BentoGrid>
-    </main>
+
+    </main >
   );
 }
 
 export default function WavyHome() {
   return (
-    <main className="flex flex-col">
-      <WavyBackground>
-        <Home />
-      </WavyBackground>
-    </main>
+    <WavyBackground>
+      <Home />
+    </WavyBackground>
   );
 }
