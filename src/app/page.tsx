@@ -1,30 +1,19 @@
 import Image from "next/image";
-import SigninButton from "./components/buttons/SigninButton";
-import { WavyBackground } from "../components/ui/wavy-background";
-import { BentoGrid, BentoGridItem } from "../components/ui/bento-grid";
-import GithubButton from "./components/buttons/GithubButton";
+import SigninButton from "@/app/components/buttons/SigninButton";
+import { WavyBackground } from "@/components/ui/wavy-background";
+import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
+import GithubButton from "@/app/components/buttons/GithubButton";
+import GridItem, { GridItemProps } from "@/app/components/GridItem";
 
-interface GridItemProps {
-  className?: string;
-}
 
 function GithubGridItem({ className }: GridItemProps) {
-  return (
-    <BentoGridItem
-      className={className}
-      header={<GithubButton />}
-    />
-  );
+  return <GridItem className={className} header={<GithubButton />} />;
 }
 
 function SigninGridItem({ className }: GridItemProps) {
-  return (
-    <BentoGridItem
-      className={className}
-      header={<SigninButton />}
-    />
-  );
+  return <GridItem className={className} header={<SigninButton />} />;
 }
+
 
 function LandingPage() {
   return (
