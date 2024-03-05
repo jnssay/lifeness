@@ -1,5 +1,7 @@
-export default function Todo() {
-    return (
-        <h2>TODO</h2>
-    );
+export default function TodoPage() {
+  return (
+    <div>
+      <h2>TODO</h2>
+    </div>
+  );
 }
