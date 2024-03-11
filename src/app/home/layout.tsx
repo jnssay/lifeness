@@ -3,6 +3,7 @@ import Image from "next/image";
 import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
 import SignoutButton from "../components/buttons/SignoutButton";
 import { WavyBackground } from "@/components/ui/wavy-background";
+import { useSession } from "next-auth/react";
 
 export default function HomeLayout({
   children,

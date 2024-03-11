@@ -20,6 +20,7 @@ const handler = NextAuth({
             }
 
             await prisma.user.upsert({
+
                 where: {
                     email: profile.email,
                 },
@@ -37,7 +38,8 @@ const handler = NextAuth({
 
         async redirect({ url, baseUrl }) {
             return baseUrl + '/home';
-        }
+        },
+
     },
 });
 

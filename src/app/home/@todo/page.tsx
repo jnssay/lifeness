@@ -8,8 +8,8 @@ export default async function Todo() {
   return (
     <main className=" flex h-full w-full justify-center items-center">
       <div className="flex flex-col h-full w-full">
-        <div className="text-center">TO-DO</div>
-        <ul>
+        <div className="text-center pb-2">TO-DO</div>
+        <ul className="overflow-auto custom-scrollbar pr-2">
           <TodoItem todos={todos} />
         </ul>
       </div>

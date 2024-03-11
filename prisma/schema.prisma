@@ -9,12 +9,13 @@ datasource db {
 }
 
 model Todo {
-    id       String  @id @default(cuid())
-    title    String
-    content  String?
-    complete Boolean @default(false)
-    user     User    @relation(fields: [userId], references: [id])
-    userId   String
+    id        String  @id @default(cuid())
+    title     String
+    content   String?
+    due       DateTime
+    complete  Boolean @default(false)
+    user      User    @relation(fields: [userEmail], references: [email])
+    userEmail String
 }
 
 model User {
