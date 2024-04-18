@@ -32,7 +32,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-  ],
+, "src/app/api/todos.ts"  ],
   "exclude": [
     "node_modules"
   ]
