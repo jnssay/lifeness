@@ -1,13 +1,64 @@
 "use client";
 
 import { TodoItem } from "@/app/components/todos/TodoItem";
-import prisma from "@/lib/prisma";
+import { format, parseISO } from "date-fns";
+import {
+  Pencil2Icon,
+  PaperPlaneIcon,
+  Cross1Icon,
+  CalendarIcon,
+} from "@radix-ui/react-icons";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
 import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 
+interface Todo {
+  id: string;
+  title: string;
+  content: string | null;
+  due: Date;
+  complete: boolean;
+  userEmail: string;
+}
+
 export default function Todo() {
   const { data: session } = useSession();
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState<Todo[]>([]);
+  const [newTodo, setNewTodo] = useState<string>("");
+  const [showInput, setShowInput] = useState(false);
+  const [date, setDate] = useState<Date>();
+  const [popoverOpen, setPopoverOpen] = useState(false);
+  const [dateSetUsingPicker, setDateSetUsingPicker] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
+
+  const handleDateSelect = (selectedDate: Date | undefined) => {
+    if (selectedDate) {
+      setDate(selectedDate);
+      setDateSetUsingPicker(true);
+      setPopoverOpen(false);
+    }
+  };
+
+  const handlePencilClick = () => {
+    setShowInput(!showInput);
+    setDate(new Date());
+    setDateSetUsingPicker(false);
+  };
+
+  const formattedDate =
+    dateSetUsingPicker && date
+      ? `${date.getDate().toString().padStart(2, "0")}/${(date.getMonth() + 1)
+          .toString()
+          .padStart(2, "0")}`
+      : "";
 
   useEffect(() => {
     const fetchTodos = async () => {
@@ -30,14 +81,130 @@ export default function Todo() {
     fetchTodos();
   }, [session]);
 
+  const handleAddTodo = async () => {
+    if (
+      !session ||
+      !session.user ||
+      typeof session.user.email !== "string" ||
+      !session.user.email.trim()
+    ) {
+      console.error("User is not logged in or email is not available.");
+      return;
+    }
+
+    if (!newTodo.trim()) {
+      toast({
+        title: `y-y-youw to-do ^-^ item is empty?!!`,
+        description: `(ノಠ益ಠ)ノ彡┻━┻`,
+        className: "bg-pink-300",
+      });
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const response = await fetch(`/api/todos`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "User-Email": session.user.email,
+        },
+        body: JSON.stringify({
+          title: newTodo,
+          due: date,
+        }),
+      });
+
+      if (response.ok) {
+        const addedTodo = await response.json();
+        const formattedDueDate = format(
+          parseISO(addedTodo.due),
+          "MMMM dd"
+        ).toLowerCase();
+        setTodos((prevTodos) => [...prevTodos, addedTodo]);
+        setNewTodo("");
+        toast({
+          title: `a-a-added "${addedTodo.title}" t-to the x3 todo wist?!!`,
+          description: `due on ${formattedDueDate} owo`,
+          className: "bg-pink-300",
+        });
+      } else {
+        console.error("Failed to add todo, server responded with an error.");
+      }
+    } catch (error) {
+      console.error("Failed to send request:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   if (!session || !session.user) {
-    return <div>Please sign in to view your todos.</div>;
+    return <div>Loading...</div>;
   }
 
   return (
-    <main className=" flex h-full w-full justify-center items-center">
+    <main className=" flex flex-col h-full w-full justify-center items-center">
       <div className="flex flex-col h-full w-full">
-        <div className="text-center pb-2">TO-DO</div>
+        <div className="flex flex-row w-full justify-between items-center">
+          {showInput ? (
+            <>
+              <div className="flex w-full items-center space-x-2 pb-3">
+                <div className="flex w-full items-center bg-pink-300 px-2">
+                  {isLoading ? (
+                    <div className="flex text-pink-700 text-xl italic w-full justify-center items-center pb-2">
+                      Loading... ( ˘▽˘)っ♨
+                    </div>
+                  ) : (
+                    <>
+                      <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
+                        <PopoverTrigger asChild>
+                          <CalendarIcon className="text-pink-700 h-fit w-5 hover:scale-150 transition cursor-pointer" />
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0">
+                          <Calendar
+                            mode="single"
+                            selected={date}
+                            onSelect={handleDateSelect}
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
+                      {formattedDate && (
+                        <div className="ml-2 text-pink-700">
+                          {formattedDate}
+                        </div>
+                      )}
+                      <Input
+                        value={newTodo}
+                        onChange={(e) => setNewTodo(e.target.value)}
+                        className="text-pink-700 bg-transparent border-none h-min input-no-border placeholder:text-pink-500 placeholder:italic"
+                        placeholder="What do you nyeed t-to do?!?1"
+                      />
+                      <PaperPlaneIcon
+                        className="text-pink-700 h-fit w-5 hover:scale-150 transition cursor-pointer"
+                        onClick={handleAddTodo}
+                      />
+                    </>
+                  )}
+                </div>
+                <Cross1Icon
+                  className="text-pink-700 h-fit w-5 hover:scale-150 transition cursor-pointer"
+                  onClick={() => setShowInput(!showInput)}
+                />
+              </div>
+            </>
+          ) : (
+            <div className="flex flex-row w-full justify-between items-center pb-5">
+              <div className="text-pink-700 text-center h-max italic font-bold text-xl">
+                to-do uwu
+              </div>
+              <Pencil2Icon
+                className="text-pink-700 h-fit w-6 hover:scale-150 transition cursor-pointer"
+                onClick={handlePencilClick}
+              />
+            </div>
+          )}
+        </div>
         <ul className="overflow-auto custom-scrollbar pr-2">
           <TodoItem todos={todos} />
         </ul>

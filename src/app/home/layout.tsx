@@ -3,6 +3,7 @@ import Image from "next/image";
 import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
 import SignoutButton from "../components/buttons/SignoutButton";
 import { WavyBackground } from "@/components/ui/wavy-background";
+import { Toaster } from "@/components/ui/toaster";
 import { useSession } from "next-auth/react";
 
 export default function HomeLayout({
@@ -77,6 +78,7 @@ export default function HomeLayout({
           />
         </BentoGrid>
       </main>
+      <Toaster />
     </WavyBackground>
   );
 }

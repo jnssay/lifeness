@@ -89,3 +89,9 @@
   background-color:  rgba(80, 80, 80, 0.2);
   border-radius: 6px;
 }
+
+.input-no-border:focus {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
