@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
+import { CustomSpinner } from "@/app/components/CustomSpinner";
 
 interface Todo {
   id: string;
@@ -54,6 +55,7 @@ export default function Todo() {
   };
 
   const handlePencilClick = () => {
+    setNewTodo("");
     setShowInput(!showInput);
     setDate(new Date());
     setDateSetUsingPicker(false);
@@ -144,7 +146,11 @@ export default function Todo() {
   };
 
   if (!session || !session.user) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex flex-col h-full w-full justify-center items-center">
+        <CustomSpinner className="text-pink-500" size="large" />
+      </div>
+    );
   }
 
   return (
@@ -181,6 +187,7 @@ export default function Todo() {
                         </div>
                       )}
                       <Input
+                        autoFocus
                         value={newTodo}
                         onChange={(e) => setNewTodo(e.target.value)}
                         className="text-pink-700 bg-transparent border-none h-min input-no-border placeholder:text-pink-500 placeholder:italic"

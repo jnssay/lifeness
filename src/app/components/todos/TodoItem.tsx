@@ -1,13 +1,29 @@
 import { Todo } from "@prisma/client";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useToast } from "@/components/ui/use-toast";
+import { useState } from "react";
+import { Spinner } from "../Spinner";
 
 interface TodoItemProps {
   todos: Todo[];
   onTodosChange: () => Promise<void>;
 }
 
+interface LoadingState {
+  [key: string]: boolean;
+}
+
+interface TodoDetailsProps {
+  todo: Todo;
+  titleColor?: string;
+  dateColor?: string;
+}
+
 export function TodoItem({ todos, onTodosChange }: TodoItemProps) {
+  const [loadingState, setLoadingState] = useState<LoadingState>({});
+  const { toast } = useToast();
   const update = async (todo: Todo) => {
+    setLoadingState((prevState) => ({ ...prevState, [todo.id]: true }));
     await fetch(`/api/todos/${todo.id}`, {
       method: "PATCH",
       headers: {
@@ -17,6 +33,11 @@ export function TodoItem({ todos, onTodosChange }: TodoItemProps) {
         completed: !todo.complete,
         id: todo.id,
       }),
+    });
+    toast({
+      description: "( ´ ∀ `)ノ～ ♡",
+      title: `todo item "${todo.title}" is compwete?!?1`,
+      className: "bg-pink-300",
     });
     onTodosChange();
   };
@@ -29,6 +50,30 @@ export function TodoItem({ todos, onTodosChange }: TodoItemProps) {
     return dateA.getTime() - dateB.getTime();
   });
 
+  const TodoDetails: React.FC<TodoDetailsProps> = ({
+    todo,
+    titleColor = "",
+    dateColor = "",
+  }) => {
+    return (
+      <div className={`flex items-center w-5/6 ${titleColor}`}>
+        <div className={`text-md w-16 ${dateColor} `}>
+          {todo.due &&
+            `${new Date(todo.due).getDate().toString().padStart(2, "0")}/${(
+              new Date(todo.due).getMonth() + 1
+            )
+              .toString()
+              .padStart(2, "0")}`}
+        </div>
+        <div className="grid gap-1.5 leading-none">
+          <label htmlFor={todo.id} className="text-md pb-1 truncate w-56">
+            {todo.title}
+          </label>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="flex flex-col">
       {sortedTodos.map((todo, index) => (
@@ -40,27 +85,26 @@ export function TodoItem({ todos, onTodosChange }: TodoItemProps) {
               : "pb-3"
           }`}
         >
-          <div className="flex items-center w-5/6">
-            <div className="text-muted-foreground text-md w-16 ">
-              {todo.due &&
-                `${new Date(todo.due).getDate().toString().padStart(2, "0")}/${(
-                  new Date(todo.due).getMonth() + 1
-                )
-                  .toString()
-                  .padStart(2, "0")}`}
-            </div>
-            <div className="grid gap-1.5 leading-none">
-              <label htmlFor={todo.id} className="text-md pb-1 truncate w-56">
-                {todo.title}
-              </label>
-            </div>
-          </div>
-          <Checkbox
-            className="scale-150 mr-2"
-            checked={todo.complete}
-            onClick={() => update(todo)}
-            id={todo.id}
-          />
+          {loadingState[todo.id] ? (
+            <>
+              <TodoDetails
+                todo={todo}
+                titleColor="text-gray-500"
+                dateColor="text-gray-400"
+              />
+              <Spinner className="text-pink-500 mr-2" />
+            </>
+          ) : (
+            <>
+              <TodoDetails todo={todo} dateColor="text-muted-foreground" />
+              <Checkbox
+                className="scale-150 mr-2"
+                checked={todo.complete}
+                onClick={() => update(todo)}
+                id={todo.id}
+              />
+            </>
+          )}
         </div>
       ))}
     </div>

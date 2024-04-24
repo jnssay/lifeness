@@ -95,3 +95,16 @@
   outline: none !important;
   box-shadow: none !important;
 }
+
+@keyframes spin-in-steps {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-steps {
+  animation: spin-in-steps 1s infinite steps(8);
+}
