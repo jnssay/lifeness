@@ -39,6 +39,12 @@ export default function Todo() {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
+  const refreshTodos = async () => {
+    const response = await fetch("/api/todos");
+    const data = await response.json();
+    setTodos(data);
+  };
+
   const handleDateSelect = (selectedDate: Date | undefined) => {
     if (selectedDate) {
       setDate(selectedDate);
@@ -63,7 +69,6 @@ export default function Todo() {
   useEffect(() => {
     const fetchTodos = async () => {
       if (session?.user?.email) {
-        console.log(session.user.email);
         const response = await fetch(`/api/todos`, {
           method: "GET",
           headers: {
@@ -152,7 +157,7 @@ export default function Todo() {
                 <div className="flex w-full items-center bg-pink-300 px-2">
                   {isLoading ? (
                     <div className="flex text-pink-700 text-xl italic w-full justify-center items-center pb-2">
-                      Loading... ( ˘▽˘)っ♨
+                      Loading...
                     </div>
                   ) : (
                     <>
@@ -166,6 +171,7 @@ export default function Todo() {
                             selected={date}
                             onSelect={handleDateSelect}
                             initialFocus
+                            className="bg-pink-100"
                           />
                         </PopoverContent>
                       </Popover>
@@ -179,6 +185,11 @@ export default function Todo() {
                         onChange={(e) => setNewTodo(e.target.value)}
                         className="text-pink-700 bg-transparent border-none h-min input-no-border placeholder:text-pink-500 placeholder:italic"
                         placeholder="What do you nyeed t-to do?!?1"
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            handleAddTodo();
+                          }
+                        }}
                       />
                       <PaperPlaneIcon
                         className="text-pink-700 h-fit w-5 hover:scale-150 transition cursor-pointer"
@@ -206,7 +217,7 @@ export default function Todo() {
           )}
         </div>
         <ul className="overflow-auto custom-scrollbar pr-2">
-          <TodoItem todos={todos} />
+          <TodoItem todos={todos} onTodosChange={refreshTodos} />
         </ul>
       </div>
     </main>

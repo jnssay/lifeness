@@ -20,6 +20,7 @@ export async function GET(req: NextRequest) {
     const todos = await prisma.todo.findMany({
         where: {
             userEmail: String(token.email),
+            complete: false,
         },
     });
 

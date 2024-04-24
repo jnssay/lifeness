@@ -1,22 +1,24 @@
-"use client";
-
-import { useRouter } from "next/navigation";
 import { Todo } from "@prisma/client";
 import { Checkbox } from "@/components/ui/checkbox";
 
-export function TodoItem({ todos }: { todos: Todo[] }) {
-  const router = useRouter();
+interface TodoItemProps {
+  todos: Todo[];
+  onTodosChange: () => Promise<void>;
+}
+
+export function TodoItem({ todos, onTodosChange }: TodoItemProps) {
   const update = async (todo: Todo) => {
-    await fetch(`/api/todo/${todo.id}`, {
+    await fetch(`/api/todos/${todo.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         completed: !todo.complete,
+        id: todo.id,
       }),
     });
-    router.refresh();
+    onTodosChange();
   };
 
   const sortedTodos = todos.sort((a, b) => {
@@ -56,7 +58,7 @@ export function TodoItem({ todos }: { todos: Todo[] }) {
           <Checkbox
             className="scale-150 mr-2"
             checked={todo.complete}
-            onChange={() => update(todo)}
+            onClick={() => update(todo)}
             id={todo.id}
           />
         </div>
