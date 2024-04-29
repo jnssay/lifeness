@@ -108,3 +108,7 @@
 .animate-spin-steps {
   animation: spin-in-steps 1s infinite steps(8);
 }
+
+.grid-container {
+  height: 100%;
+}

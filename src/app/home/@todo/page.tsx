@@ -223,7 +223,7 @@ export default function Todo() {
             </div>
           )}
         </div>
-        <ul className="overflow-auto custom-scrollbar pr-2">
+        <ul className="overflow-auto custom-scrollbar pt-1 pr-2">
           <TodoItem todos={todos} onTodosChange={refreshTodos} />
         </ul>
       </div>

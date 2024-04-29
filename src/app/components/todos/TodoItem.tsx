@@ -56,8 +56,10 @@ export function TodoItem({ todos, onTodosChange }: TodoItemProps) {
     dateColor = "",
   }) => {
     return (
-      <div className={`flex items-center w-5/6 ${titleColor}`}>
-        <div className={`text-md w-16 ${dateColor} `}>
+      <div className={` flex items-center w-5/6 ${titleColor}`}>
+        <div
+          className={`text-sm sm:text-lg lg:text-sm xl:text-md pr-3 3xl:text-md ${dateColor} `}
+        >
           {todo.due &&
             `${new Date(todo.due).getDate().toString().padStart(2, "0")}/${(
               new Date(todo.due).getMonth() + 1
@@ -66,7 +68,10 @@ export function TodoItem({ todos, onTodosChange }: TodoItemProps) {
               .padStart(2, "0")}`}
         </div>
         <div className="grid gap-1.5 leading-none">
-          <label htmlFor={todo.id} className="text-md pb-1 truncate w-56">
+          <label
+            htmlFor={todo.id}
+            className="text-sm sm:text-lg lg:text-sm xl:text-md 3xl:text-md w-36 sm:w-96 md:w-72 lg:w-60 2xl:w-52 3xl:w-72 truncate"
+          >
             {todo.title}
           </label>
         </div>
