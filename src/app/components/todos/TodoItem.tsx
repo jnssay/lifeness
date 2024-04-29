@@ -50,6 +50,19 @@ export function TodoItem({ todos, onTodosChange }: TodoItemProps) {
     return dateA.getTime() - dateB.getTime();
   });
 
+  if (sortedTodos.length === 0) {
+    return (
+      <div className="flex flex-col h-full w-full">
+        <p className="text-gray-500 text-lg pb-3">
+          You have no to-do ^-^ items?!! (ʘᗩʘ’)
+        </p>
+        <p className="text-gray-500 text-md">
+          Cwick on the bwutton at the x3 t-top wight t-to make a to-do?!?1
+        </p>
+      </div>
+    );
+  }
+
   const TodoDetails: React.FC<TodoDetailsProps> = ({
     todo,
     titleColor = "",
@@ -58,7 +71,7 @@ export function TodoItem({ todos, onTodosChange }: TodoItemProps) {
     return (
       <div className={` flex items-center w-5/6 ${titleColor}`}>
         <div
-          className={`text-sm sm:text-lg lg:text-sm xl:text-md pr-3 3xl:text-md ${dateColor} `}
+          className={`text-sm sm:text-lg lg:text-sm xl:text-md pr-3 ${dateColor} `}
         >
           {todo.due &&
             `${new Date(todo.due).getDate().toString().padStart(2, "0")}/${(
@@ -70,7 +83,7 @@ export function TodoItem({ todos, onTodosChange }: TodoItemProps) {
         <div className="grid gap-1.5 leading-none">
           <label
             htmlFor={todo.id}
-            className="text-sm sm:text-lg lg:text-sm xl:text-md 3xl:text-md w-36 sm:w-96 md:w-72 lg:w-60 2xl:w-52 3xl:w-72 truncate"
+            className="text-sm sm:text-lg lg:text-sm xl:text-md w-36 sm:w-96 md:w-72 lg:w-60 2xl:w-52 3xl:w-72 4xl:w-96 truncate"
           >
             {todo.title}
           </label>

@@ -19,7 +19,7 @@ const loaderVariants = cva("animate-spin-steps text-primary", {
   variants: {
     size: {
       small: "size-6",
-      medium: "size-8",
+      medium: "size-16",
       large: "size-20",
     },
   },

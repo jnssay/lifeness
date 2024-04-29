@@ -79,27 +79,27 @@ export default function HomeLayout({
 
   return (
     <>
-      {/* <WavyBackground> */}
-      <main className="flex flex-col w-screen h-screen items-center  px-8">
-        <div className="flex flex-row w-full justify-between py-4">
-          <div className="flex flex-row w-48 relative p-8">
-            <Image src="/logo_notag.svg" alt="Lifeness Logo" fill />
-          </div>
+      <WavyBackground>
+        <main className="flex flex-col w-screen h-screen items-center  px-8">
+          <div className="flex flex-row w-full justify-between py-4">
+            <div className="flex flex-row w-48 relative p-8">
+              <Image src="/logo_notag.svg" alt="Lifeness Logo" fill />
+            </div>
 
-          <SignoutButton />
-        </div>
-        <BentoGrid className="grid-container w-full h-full mx-auto">
-          {items.map((item, index) => (
-            <BentoGridItem
-              key={index}
-              className={item.className}
-              header={item.header}
-            />
-          ))}
-        </BentoGrid>
-      </main>
-      <Toaster />
-      {/* </WavyBackground> */}
+            <SignoutButton />
+          </div>
+          <BentoGrid className="grid-container w-full h-full mx-auto">
+            {items.map((item, index) => (
+              <BentoGridItem
+                key={index}
+                className={item.className}
+                header={item.header}
+              />
+            ))}
+          </BentoGrid>
+        </main>
+        <Toaster />
+      </WavyBackground>
     </>
   );
 }

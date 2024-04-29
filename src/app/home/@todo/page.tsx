@@ -38,6 +38,7 @@ export default function Todo() {
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [dateSetUsingPicker, setDateSetUsingPicker] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isTodoLoading, setIsTodoLoading] = useState(false);
   const { toast } = useToast();
 
   const refreshTodos = async () => {
@@ -70,6 +71,7 @@ export default function Todo() {
 
   useEffect(() => {
     const fetchTodos = async () => {
+      setIsTodoLoading(true);
       if (session?.user?.email) {
         const response = await fetch(`/api/todos`, {
           method: "GET",
@@ -81,6 +83,7 @@ export default function Todo() {
         if (response.ok) {
           const userTodos = await response.json();
           setTodos(userTodos);
+          setIsTodoLoading(false);
         }
       }
     };
@@ -159,10 +162,10 @@ export default function Todo() {
         <div className="flex flex-row w-full justify-between items-center">
           {showInput ? (
             <>
-              <div className="flex w-full items-center space-x-2 pb-3">
+              <div className="flex w-full items-center space-x-2 pb-1">
                 <div className="flex w-full items-center bg-pink-300 px-2">
                   {isLoading ? (
-                    <div className="flex text-pink-700 text-xl italic w-full justify-center items-center pb-2">
+                    <div className="flex text-pink-700 text-xl italic w-full justify-center items-center py-1">
                       Loading...
                     </div>
                   ) : (
@@ -212,7 +215,7 @@ export default function Todo() {
               </div>
             </>
           ) : (
-            <div className="flex flex-row w-full justify-between items-center pb-5">
+            <div className="flex flex-row w-full justify-between items-center pb-3">
               <div className="text-pink-700 text-center h-max italic font-bold text-xl">
                 to-do uwu
               </div>
@@ -223,9 +226,16 @@ export default function Todo() {
             </div>
           )}
         </div>
-        <ul className="overflow-auto custom-scrollbar pt-1 pr-2">
-          <TodoItem todos={todos} onTodosChange={refreshTodos} />
-        </ul>
+
+        {isTodoLoading ? (
+          <div className="flex flex-col h-full w-full justify-center">
+            <CustomSpinner className="text-pink-500" size="medium" />
+          </div>
+        ) : (
+          <ul className="overflow-auto custom-scrollbar pt-1 pr-2">
+            <TodoItem todos={todos} onTodosChange={refreshTodos} />
+          </ul>
+        )}
       </div>
     </main>
   );

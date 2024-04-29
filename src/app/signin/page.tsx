@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 
 export default function SignInPage() {
   return (
-    <div className="flex flex-row items-center justify-center h-screen space-x-4 border-2 border-black">
+    <div className="flex flex-row items-center justify-center h-screen space-x-4">
       <div className="flex sm:w-24 sm:h-24 p-8 relative flex-row">
         <Image src="/google.svg" alt="Google Logo" fill />
       </div>
