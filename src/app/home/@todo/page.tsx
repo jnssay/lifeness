@@ -26,7 +26,9 @@ interface Todo {
   content: string | null;
   due: Date;
   complete: boolean;
-  userEmail: string;
+  userId: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export default function Todo() {
@@ -72,12 +74,12 @@ export default function Todo() {
   useEffect(() => {
     const fetchTodos = async () => {
       setIsTodoLoading(true);
-      if (session?.user?.email) {
+      if (session?.user?.id) {
         const response = await fetch(`/api/todos`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            "User-Email": session.user.email,
+            "User-Id": session.user.id,
           },
         });
         if (response.ok) {
@@ -95,8 +97,8 @@ export default function Todo() {
     if (
       !session ||
       !session.user ||
-      typeof session.user.email !== "string" ||
-      !session.user.email.trim()
+      typeof session.user.id !== "string" ||
+      !session.user.id.trim()
     ) {
       console.error("User is not logged in or email is not available.");
       return;
@@ -117,7 +119,7 @@ export default function Todo() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "User-Email": session.user.email,
+          "User-Id": session.user.id,
         },
         body: JSON.stringify({
           title: newTodo,

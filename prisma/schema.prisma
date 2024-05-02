@@ -1,30 +1,34 @@
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider  = "postgresql"
-    url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
-    directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
 model Todo {
-    id        String  @id @default(cuid())
-    title     String
-    content   String?
-    due       DateTime
-    complete  Boolean @default(false)
-    user      User    @relation(fields: [userEmail], references: [email])
-    userEmail String
+  id        String   @id @default(cuid())
+  title     String
+  content   String?
+  due       DateTime
+  complete  Boolean  @default(false)
+  userId    String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@map("todos")
 }
 
 model User {
-    id        String   @id @default(cuid())
-    name      String
-    email     String   @unique
-    createdAt DateTime @default(now()) @map(name: "created_at")
-    updatedAt DateTime @updatedAt @map(name: "updated_at")
-    todos     Todo[]
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  todos     Todo[]
 
-    @@map(name: "users")
+  @@map("users")
 }

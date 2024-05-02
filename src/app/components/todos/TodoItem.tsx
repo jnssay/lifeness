@@ -71,7 +71,7 @@ export function TodoItem({ todos, onTodosChange }: TodoItemProps) {
     return (
       <div className={` flex items-center w-5/6 ${titleColor}`}>
         <div
-          className={`text-sm sm:text-lg lg:text-sm xl:text-md pr-3 ${dateColor} `}
+          className={`text-sm sm:text-lg lg:text-sm xl:text-md pr-3 ${dateColor} border-2 border-black w-12 sm:w-16 md:w-60 `}
         >
           {todo.due &&
             `${new Date(todo.due).getDate().toString().padStart(2, "0")}/${(

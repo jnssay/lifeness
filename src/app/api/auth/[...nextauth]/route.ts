@@ -1,6 +1,8 @@
 import NextAuth from "next-auth/next";
 import GoogleProvider from "next-auth/providers/google";
 import prisma from '@/lib/prisma'
+import { Session } from "next-auth";
+import { JWT } from "next-auth/jwt";
 
 const handler = NextAuth({
     providers: [
@@ -19,7 +21,7 @@ const handler = NextAuth({
                 throw new Error('No profile or email found');
             }
 
-            await prisma.user.upsert({
+            const dbUser: { id: string } = await prisma.user.upsert({
 
                 where: {
                     email: profile.email,
@@ -31,10 +33,34 @@ const handler = NextAuth({
                 update: {
                     name: profile.name || ""
                 },
+                select: {
+                    id: true
+                }
             })
-
+            user.id = dbUser.id;
             return true;
         },
+
+        async jwt({ token, user, account }) {
+            if (user && user.id) {
+                token.id = user.id;
+            }
+            if (account) {
+                token.accessToken = account.access_token;
+            }
+            return token;
+        },
+
+        async session({ session, token }: { session: Session, token: JWT }) {
+            if (token.id) {
+              session.user.id = token.id;  // token.id is string or undefined
+            } else {
+              console.error('UUID from token is not available');
+              session.user.id = null;  // Explicitly null is acceptable if type includes | null
+            }
+            return session;
+          },
+
 
         async redirect({ url, baseUrl }) {
             return baseUrl + '/home';
