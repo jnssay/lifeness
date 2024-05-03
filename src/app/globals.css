@@ -96,6 +96,11 @@
   box-shadow: none !important;
 }
 
+.input-no-outline:focus {
+  box-shadow: none !important;
+}
+
+
 @keyframes spin-in-steps {
   from {
     transform: rotate(0deg);

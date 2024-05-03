@@ -71,7 +71,7 @@ export function TodoItem({ todos, onTodosChange }: TodoItemProps) {
     return (
       <div className={` flex items-center w-5/6 ${titleColor}`}>
         <div
-          className={`text-sm sm:text-lg lg:text-sm xl:text-md pr-3 ${dateColor} border-2 border-black w-12 sm:w-16 md:w-60 `}
+          className={`text-sm sm:text-lg lg:text-sm xl:text-md pr-3 ${dateColor} w-12 sm:w-16 lg:w-12 `}
         >
           {todo.due &&
             `${new Date(todo.due).getDate().toString().padStart(2, "0")}/${(
@@ -83,7 +83,7 @@ export function TodoItem({ todos, onTodosChange }: TodoItemProps) {
         <div className="grid gap-1.5 leading-none">
           <label
             htmlFor={todo.id}
-            className="text-sm sm:text-lg lg:text-sm xl:text-md w-36 sm:w-96 md:w-72 lg:w-60 2xl:w-52 3xl:w-72 4xl:w-96 truncate"
+            className="text-sm sm:text-lg lg:text-sm xl:text-md w-36 sm:w-96 md:w-64 lg:w-60 xl:w-56 2xl:w-60 3xl:w-72 4xl:w-96 truncate"
           >
             {todo.title}
           </label>

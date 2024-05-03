@@ -1,5 +1,6 @@
 import NextAuth from "next-auth/next";
 import GoogleProvider from "next-auth/providers/google";
+import CredentialsProvider from "next-auth/providers/credentials";
 import prisma from '@/lib/prisma'
 import { Session } from "next-auth";
 import { JWT } from "next-auth/jwt";
@@ -9,6 +10,27 @@ const handler = NextAuth({
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID ?? "",
             clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
+        }),
+        CredentialsProvider({
+            name: "Credentials",
+            credentials: {
+                username: { label: "Username", type: "text", placeholder: "Username" },
+                password: { label: "Password", type: "password", placeholder: "Password" }
+            },
+            authorize: async (credentials) => {
+                if (!credentials) {
+                    return null;
+                }
+                const user = await prisma.user.findUnique({
+                    where: { username: credentials.username }
+                });
+
+                if (user && user.password === credentials.password) {
+                    return user;
+                } else {
+                    return null;
+                }
+            }
         }),
     ],
     pages: {
