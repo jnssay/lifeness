@@ -19,9 +19,10 @@ export default function SignInPage() {
           You have successfully signed up!
         </div>
         <br />
-        <div className="text-md sm:text-2xl max-w-lg md:text-xl">
+        <div className="text-justify text-md sm:text-2xl max-w-lg md:text-xl">
           Please check your email inbox for a verification link to complete the
-          registration process. The link expires in one hour.
+          registration process. Remember to check your spam folder if you do not
+          see the email. The link expires in one hour.
         </div>
         <Link className="w-full flex justify-center" href="/signin" passHref>
           <Button className="mt-10 md:mt-16 w-full sm:text-2xl sm:h-16 text-pink-500 bg-pink-100 border border-pink-300">

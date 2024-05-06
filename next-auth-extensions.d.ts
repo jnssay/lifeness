@@ -8,8 +8,14 @@ declare module "next-auth" {
   interface Session {
     user: {
       /** The user's id */
-      id: string | null | undefined
+      uid: string | null;
+      username?: string | null;
     } & DefaultSession["user"];
+  }
+
+  interface User extends DefaultUser {
+    id: string | null;
+    username?: string | null;
   }
 }
 
@@ -18,6 +24,6 @@ declare module "next-auth/jwt" {
    * The shape of the JWT object in your application
    */
   interface JWT {
-    id?: string;
+    uid?: string;
   }
 }

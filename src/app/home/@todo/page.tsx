@@ -74,12 +74,12 @@ export default function Todo() {
   useEffect(() => {
     const fetchTodos = async () => {
       setIsTodoLoading(true);
-      if (session?.user?.id) {
+      if (session?.user?.uid) {
         const response = await fetch(`/api/todos`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            "User-Id": session.user.id,
+            "User-Id": session.user.uid,
           },
         });
         if (response.ok) {
@@ -97,8 +97,8 @@ export default function Todo() {
     if (
       !session ||
       !session.user ||
-      typeof session.user.id !== "string" ||
-      !session.user.id.trim()
+      typeof session.user.uid !== "string" ||
+      !session.user.uid.trim()
     ) {
       console.error("User is not logged in or email is not available.");
       return;
@@ -119,7 +119,7 @@ export default function Todo() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "User-Id": session.user.id,
+          "User-Id": session.user.uid,
         },
         body: JSON.stringify({
           title: newTodo,

@@ -13,16 +13,20 @@ export async function POST(req: NextRequest) {
         const verificationToken = crypto.randomBytes(32).toString('hex');
         const verificationExpires = new Date(Date.now() + 3600 * 1000);
 
-        const existingUser = await prisma.user.findUnique({
-            where: { email: data.email },
+        const existingUser = await prisma.user.findFirst({
+            where: {
+                email: data.email,
+                NOT: { authType: "GOOGLE" }
+            },
         });
+        
 
         if (existingUser) {
             if (!existingUser.emailVerified) {
                 if (existingUser.verificationExpires && new Date() < existingUser.verificationExpires) {
-                    await sendVerificationEmail(data.email, existingUser.verificationToken!);
+                    await sendVerificationEmail(data.email, existingUser.verificationToken!, existingUser.username!);
                     return new NextResponse(JSON.stringify({
-                        error: "Email already registered but not verified. Verification email resent."
+                        error: "Email registered but not verified. Verification email resent."
                     }), {
                         status: 400,
                         headers: {
@@ -30,14 +34,17 @@ export async function POST(req: NextRequest) {
                         },
                     });
                 } else {
-                    await prisma.user.update({
-                        where: { email: data.email },
+                    await prisma.user.updateMany({
+                        where: {
+                            email: data.email,
+                            authType: "CUSTOM"
+                        },
                         data: {
                             verificationToken: verificationToken,
                             verificationExpires: verificationExpires,
                         },
                     });
-                    await sendVerificationEmail(data.email, verificationToken);
+                    await sendVerificationEmail(data.email, verificationToken, data.username);
                     return new NextResponse(JSON.stringify({
                         message: "Verification link has expired. A new verification email has been sent."
                     }), {
@@ -71,7 +78,7 @@ export async function POST(req: NextRequest) {
             },
         });
 
-        await sendVerificationEmail(data.email, verificationToken);
+        await sendVerificationEmail(data.email, verificationToken, data.username);
 
         return new NextResponse(JSON.stringify({
             username: newUser.username,

@@ -47,20 +47,28 @@ function VerifyEmailContent() {
 function VerifiedMessage() {
   return (
     <div className="flex flex-col items-center justify-center h-screen p-10">
-      <Image
-        className="w-full"
-        fill
-        src="/logo_notag.svg"
-        alt="Lifeness Logo"
-      />
-      <div className="text-lg sm:text-3xl md:text-3xl max-w-lg md:pt-12 text-pink-500 font-bold">
-        Success! Your email is successfully verified!
+      <div className="flex relative font-bold text-3xl w-full max-w-lg h-1/5 ">
+        <Image
+          className="w-full"
+          fill
+          src="/logo_notag.svg"
+          alt="Lifeness Logo"
+        />
       </div>
-      <Link className="w-full flex justify-center" href="/signin" passHref>
-        <Button className="mt-10 md:mt-16 w-full sm:text-2xl sm:h-16 text-pink-500 bg-pink-100 border border-pink-300">
-          Back to Sign In
-        </Button>
-      </Link>
+      <div>
+        <div className="text-lg sm:text-3xl md:text-3xl max-w-lg md:pt-12 text-pink-500 font-bold">
+          Success!
+        </div>
+        <br />
+        <div className="text-md sm:text-2xl max-w-lg md:text-xl">
+          Your email is successfully verified! You may now log into Lifeness.
+        </div>
+        <Link className="w-full flex justify-center" href="/signin" passHref>
+          <Button className="mt-10 md:mt-16 w-full sm:text-2xl sm:h-16 text-pink-500 bg-pink-100 border border-pink-300">
+            Back to Sign In
+          </Button>
+        </Link>
+      </div>
     </div>
   );
 }
@@ -68,20 +76,28 @@ function VerifiedMessage() {
 function ExpiredMessage() {
   return (
     <div className="flex flex-col items-center justify-center h-screen p-10">
-      <Image
-        className="w-full"
-        fill
-        src="/logo_notag.svg"
-        alt="Lifeness Logo"
-      />
-      <div className="text-lg sm:text-3xl md:text-3xl max-w-lg md:pt-12 text-pink-500 font-bold">
-        Invalid Link! The verification token is invalid or expired.
+      <div className="flex relative font-bold text-3xl w-full max-w-lg h-1/5 ">
+        <Image
+          className="w-full"
+          fill
+          src="/logo_notag.svg"
+          alt="Lifeness Logo"
+        />
       </div>
-      <Link className="w-full flex justify-center" href="/signup" passHref>
-        <Button className="mt-10 md:mt-16 w-full sm:text-2xl sm:h-16 text-pink-500 bg-pink-100 border border-pink-300">
-          Back to Sign Up
-        </Button>
-      </Link>
+      <div>
+        <div className="text-lg sm:text-3xl md:text-3xl max-w-lg md:pt-12 text-pink-500 font-bold">
+          Invalid Link!
+        </div>
+        <br />
+        <div className="text-md sm:text-2xl max-w-lg md:text-xl">
+          The verification link is invalid or expired.
+        </div>
+        <Link className="w-full flex justify-center" href="/" passHref>
+          <Button className="mt-10 md:mt-16 w-full sm:text-2xl sm:h-16 text-pink-500 bg-pink-100 border border-pink-300">
+            Back to Home
+          </Button>
+        </Link>
+      </div>
     </div>
   );
 }

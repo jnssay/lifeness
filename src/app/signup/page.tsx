@@ -53,9 +53,6 @@ export default function SignupPage() {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      username: "",
-    },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -99,7 +96,10 @@ export default function SignupPage() {
         />
       </div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 pt-4">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-6 pt-4 max-w-72"
+        >
           {serverError.message && (
             <div className="text-red-500 text-center">
               {serverError.message}

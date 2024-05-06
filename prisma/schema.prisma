@@ -26,14 +26,21 @@ model User {
   id                  String   @id @default(cuid())
   username            String?  @unique
   name                String
-  email               String   @unique
+  email               String   
   password            String?
   createdAt           DateTime @default(now()) @map("created_at")
   updatedAt           DateTime @updatedAt @map("updated_at")
   verificationToken   String?  @default(uuid()) @unique
   verificationExpires DateTime?
   emailVerified       Boolean  @default(false)
+  authType            AuthType @default(CUSTOM)
   todos     Todo[]
 
   @@map("users")
+}
+
+enum AuthType {
+  GOOGLE
+  CUSTOM
+  BOTH
 }

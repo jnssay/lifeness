@@ -4,6 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import prisma from '@/lib/prisma'
 import { Session } from "next-auth";
 import { JWT } from "next-auth/jwt";
+import { checkPassword } from "@/utils/auth";
 
 const handler = NextAuth({
     providers: [
@@ -25,7 +26,7 @@ const handler = NextAuth({
                     where: { username: credentials.username }
                 });
 
-                if (user && user.password === credentials.password) {
+                if (user && (await checkPassword(credentials.password, user.password!))) {
                     return user;
                 } else {
                     return null;
@@ -37,48 +38,79 @@ const handler = NextAuth({
         signIn: '/signin',
     },
     callbacks: {
-        async signIn({ user, account, profile, email, credentials }) {
-
-            if (!profile || !profile.email) {
-                throw new Error('No profile or email found');
+        async signIn({ user, account, profile }) {
+            if (!account) {
+                console.error('Account details are not available');
+                return false;
             }
-
-            const dbUser: { id: string } = await prisma.user.upsert({
-
-                where: {
-                    email: profile.email,
-                },
-                create: {
-                    email: profile.email,
-                    name: profile.name || ""
-                },
-                update: {
-                    name: profile.name || ""
-                },
-                select: {
-                    id: true
+            if (account.provider === "google") {
+                if (!profile || !profile.email) {
+                    console.error('Profile data is missing or incomplete.');
+                    return false;
                 }
-            })
-            user.id = dbUser.id;
+                const email = profile.email;
+                const dbUser = await prisma.user.findFirst({
+                    where: {
+                        email: email,
+                        authType: 'GOOGLE'
+                    }
+                });
+                if (dbUser) {
+                    const updatedUser = await prisma.user.update({
+                        where: {
+                            id: dbUser.id
+                        },
+                        data: {
+                            name: profile.name || "",
+                        },
+                        select: { id: true }
+                    });
+                    user.id = dbUser.id
+                } else {
+                    const newUser = await prisma.user.create({
+                        data: {
+                            email: email,
+                            name: profile.name || "",
+                            authType: 'GOOGLE',
+                        },
+                        select: { id: true }
+                    });
+                    user.id = newUser.id
+                }
+            } 
+    
+            else if (account.provider === "credentials") {
+                if (!user || !user.username) {
+                    console.error('User details are missing after credentials authorization.');
+                    return false;
+                }
+                const dbUser = await prisma.user.findUnique({
+                    where: { username: user.username },
+                    select: { id: true }
+                });
+                user.id = dbUser?.id || null;
+            }
+            
             return true;
         },
 
         async jwt({ token, user, account }) {
-            if (user && user.id) {
-                token.id = user.id;
+            if (user?.id) {
+                token.uid = user.id;
             }
-            if (account) {
+            if (account?.access_token) {
                 token.accessToken = account.access_token;
             }
             return token;
         },
 
         async session({ session, token }: { session: Session, token: JWT }) {
-            if (token.id) {
-              session.user.id = token.id;  // token.id is string or undefined
+            if (token.uid) {
+              session.user.uid = token.uid; 
             } else {
               console.error('UUID from token is not available');
-              session.user.id = null;  // Explicitly null is acceptable if type includes | null
+              console.log("********token", token)
+              session.user.uid = null; 
             }
             return session;
           },

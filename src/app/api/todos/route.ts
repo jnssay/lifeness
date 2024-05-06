@@ -8,7 +8,7 @@ export async function GET(req: NextRequest) {
 
     const token = await getToken({ req, secret })
 
-    if (!token || !token.id) {
+    if (!token || !token.uid) {
         return new NextResponse(JSON.stringify({ error: "Unauthorized" }), {
             status: 401,
             headers: {
@@ -19,7 +19,7 @@ export async function GET(req: NextRequest) {
 
     const todos = await prisma.todo.findMany({
         where: {
-            userId: String(token.id),
+            userId: String(token.uid),
             complete: false,
         },
     });
@@ -30,7 +30,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
     const token = await getToken({ req, secret });
 
-    if (!token || !token.id) {
+    if (!token || !token.uid) {
         return new NextResponse(JSON.stringify({ error: "Unauthorized" }), {
             status: 401,
             headers: {
@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
                 content: data.content || null,
                 due: data.due,
                 complete: data.complete || false,
-                userId: String(token.id),
+                userId: String(token.uid),
             },
         });
 
