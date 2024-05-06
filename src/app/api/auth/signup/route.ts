@@ -13,6 +13,52 @@ export async function POST(req: NextRequest) {
         const verificationToken = crypto.randomBytes(32).toString('hex');
         const verificationExpires = new Date(Date.now() + 3600 * 1000);
 
+        const existingUser = await prisma.user.findUnique({
+            where: { email: data.email },
+        });
+
+        if (existingUser) {
+            if (!existingUser.emailVerified) {
+                if (existingUser.verificationExpires && new Date() < existingUser.verificationExpires) {
+                    await sendVerificationEmail(data.email, existingUser.verificationToken!);
+                    return new NextResponse(JSON.stringify({
+                        error: "Email already registered but not verified. Verification email resent."
+                    }), {
+                        status: 400,
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    });
+                } else {
+                    await prisma.user.update({
+                        where: { email: data.email },
+                        data: {
+                            verificationToken: verificationToken,
+                            verificationExpires: verificationExpires,
+                        },
+                    });
+                    await sendVerificationEmail(data.email, verificationToken);
+                    return new NextResponse(JSON.stringify({
+                        message: "Verification link has expired. A new verification email has been sent."
+                    }), {
+                        status: 201,
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    });
+                }
+            } else {
+                return new NextResponse(JSON.stringify({
+                    error: "Email already in use."
+                }), {
+                    status: 400,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+            }
+        }
+
         const newUser = await prisma.user.create({
             data: {
                 username: data.username,
