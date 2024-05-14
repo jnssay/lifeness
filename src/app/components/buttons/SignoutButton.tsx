@@ -11,10 +11,10 @@ const SigninButton = () => {
 
   if (session && session.user) {
     return (
-      <div className="hidden sm:flex items-center flex flex-row pt-1">
+      <div className="items-center flex flex-row pt-1">
         <p
           style={{ fontWeight: "bold", fontSize: "20px" }}
-          className="text-pink-600 pr-2"
+          className="text-pink-600 pr-2 hidden sm:flex "
         >
           Logged in: {session.user.name}
         </p>

@@ -19,13 +19,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-function isUserOnTelegram() {
-  if (typeof window !== "undefined") {
-    return navigator.userAgent.includes("Telegram");
-  }
-  return false;
-}
-
 interface ServerError {
   message: string;
 }
@@ -171,17 +164,14 @@ export default function SignInPage() {
                 Sign in with Google
               </Button>
             </Link>
-            {isUserOnTelegram() && (
-              <div className="pt-2 text-xs text-justify">
-                Note: With changes to Google OAuth 2.0, Google Login is no
-                longer supported on embedded browsers such as Telegram Mini
-                Apps.
-                <br />
-                <br />
-                If you have an existing Google Account, create a new account
-                with the same email to link your account information.
-              </div>
-            )}
+            <div className="pt-2 text-xs text-justify">
+              Note: With changes to Google OAuth 2.0, Google Login is no longer
+              supported on embedded browsers such as Telegram Mini Apps.
+              <br />
+              <br />
+              If you have an existing Google Account, create a new account with
+              the same email to link your account information.
+            </div>
           </div>
         </form>
       </Form>

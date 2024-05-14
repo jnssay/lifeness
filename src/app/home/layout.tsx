@@ -38,12 +38,12 @@ export default function HomeLayout({
     {
       header: todo,
       className:
-        "2xl:col-span-3 2xl:row-span-4 xl:col-span-4 xl:row-span-3 lg:col-span-5 lg:row-span-5 md:col-span-8 md:row-span-4 row-span-5 bg-pink-100",
+        "2xl:col-span-3 2xl:row-span-4 xl:col-span-4 xl:row-span-3 lg:col-span-5 lg:row-span-5 md:col-span-8 md:row-span-4 sm:row-span-5 row-span-10 bg-pink-100",
     },
     {
       header: event,
       className:
-        "2xl:col-span-2 2xl:row-span-4 2xl:order-none xl:col-span-4 xl:row-span-3 xl:order-1 xl:from-pink-300 xl:bg-pink-100 lg:col-span-5 lg:row-span-5 lg:bg-pink-400 lg:order-2 md:col-span-8 md:row-span-4 md:order-1 md:bg-pink-100 sm:bg-pink-200 row-span-5 from-pink-100 bg-pink-400",
+        "2xl:col-span-2 2xl:row-span-4 2xl:order-none xl:col-span-4 xl:row-span-3 xl:order-1 xl:from-pink-300 xl:bg-pink-100 lg:col-span-5 lg:row-span-5 lg:bg-pink-400 lg:order-2 md:col-span-8 md:row-span-4 md:order-1 md:bg-pink-100 sm:bg-pink-200 sm:row-span-5 from-pink-100 bg-pink-400 hidden sm:flex   ",
     },
     {
       header: note,

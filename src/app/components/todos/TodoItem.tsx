@@ -36,7 +36,7 @@ export function TodoItem({ todos, onTodosChange }: TodoItemProps) {
     });
     toast({
       description: "( ´ ∀ `)ノ～ ♡",
-      title: `todo item "${todo.title}" is compwete?!?1`,
+      title: `Todo item "${todo.title}" is complete!`,
       className: "bg-pink-300",
     });
     onTodosChange();
@@ -54,10 +54,10 @@ export function TodoItem({ todos, onTodosChange }: TodoItemProps) {
     return (
       <div className="flex flex-col h-full w-full">
         <p className="text-gray-500 text-lg pb-3">
-          You have no to-do ^-^ items?!! (ʘᗩʘ’)
+          You have no to-do items!
         </p>
         <p className="text-gray-500 text-md">
-          Cwick on the bwutton at the x3 t-top wight t-to make a to-do?!?1
+          Click on the button at the top right to make a to-do.
         </p>
       </div>
     );
@@ -97,11 +97,10 @@ export function TodoItem({ todos, onTodosChange }: TodoItemProps) {
       {sortedTodos.map((todo, index) => (
         <div
           key={todo.id}
-          className={`items-top flex w-full justify-between items-center ${
-            index < sortedTodos.length - 1
-              ? "border-b border-pink-400 pb-3 mb-3"
-              : "pb-3"
-          }`}
+          className={`items-top flex w-full justify-between items-center ${index < sortedTodos.length - 1
+            ? "border-b border-pink-400 pb-3 mb-3"
+            : "pb-3"
+            }`}
         >
           {loadingState[todo.id] ? (
             <>

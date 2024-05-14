@@ -67,8 +67,8 @@ export default function Todo() {
   const formattedDate =
     dateSetUsingPicker && date
       ? `${date.getDate().toString().padStart(2, "0")}/${(date.getMonth() + 1)
-          .toString()
-          .padStart(2, "0")}`
+        .toString()
+        .padStart(2, "0")}`
       : "";
 
   useEffect(() => {
@@ -106,7 +106,7 @@ export default function Todo() {
 
     if (!newTodo.trim()) {
       toast({
-        title: `y-y-youw to-do ^-^ item is empty?!!`,
+        title: `Your todo item is empty!`,
         description: `(ノಠ益ಠ)ノ彡┻━┻`,
         className: "bg-pink-300",
       });
@@ -136,8 +136,8 @@ export default function Todo() {
         setTodos((prevTodos) => [...prevTodos, addedTodo]);
         setNewTodo("");
         toast({
-          title: `a-a-added "${addedTodo.title}" t-to the x3 todo wist?!!`,
-          description: `due on ${formattedDueDate} owo`,
+          title: `Added "${addedTodo.title}" to the todo list!`,
+          description: `Due on ${formattedDueDate}`,
           className: "bg-pink-300",
         });
       } else {
@@ -196,7 +196,7 @@ export default function Todo() {
                         value={newTodo}
                         onChange={(e) => setNewTodo(e.target.value)}
                         className="text-pink-700 bg-transparent border-none h-min input-no-border placeholder:text-pink-500 placeholder:italic"
-                        placeholder="What do you nyeed t-to do?!?1"
+                        placeholder="What do you need to do?"
                         onKeyDown={(e) => {
                           if (e.key === "Enter") {
                             handleAddTodo();
@@ -219,7 +219,7 @@ export default function Todo() {
           ) : (
             <div className="flex flex-row w-full justify-between items-center pb-3">
               <div className="text-pink-700 text-center h-max italic font-bold text-xl">
-                to-do uwu
+                To do
               </div>
               <Pencil2Icon
                 className="text-pink-700 h-fit w-6 hover:scale-150 transition cursor-pointer"
