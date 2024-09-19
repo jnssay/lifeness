@@ -10,7 +10,7 @@ const GithubButton = () => {
   return (
     <Button
       variant="ghost"
-      className=" bg-gradient-to-b h-full from-pink-400 transition-colors max-w-[1000px] w-full text-white text-2xl p-6 font-bold"
+      className="h-full bg-pink-400 transition-colors max-w-[1000px] w-full text-white text-2xl p-6 font-bold"
       onClick={() => redirectToGitHub()}
     >
       GitHub

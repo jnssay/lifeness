@@ -16,9 +16,9 @@ function SigninGridItem({ className }: GridItemProps) {
 function LandingPage() {
   return (
     <main className="flex flex-col w-screen h-screen justify-start items-center p-10 space-y-10">
-      <div className="flex flex-col h-1/4 sm:h-1/3 min-h-[100px] w-80 sm:w-full lg:max-w-[1400px] 2xl:max-w-[1920px] justify-center relative sm:hover:scale-105 transition">
+      <div className="flex flex-col h-1/4 min-h-[100px] w-80 justify-center relative transition">
         <Image
-          className="hidden sm:flex"
+          className="hidden"
           src="/lifeness.svg"
           alt="Lifeness Logo"
           fill
@@ -26,7 +26,7 @@ function LandingPage() {
         />
 
         <Image
-          className="flex sm:hidden"
+          className="flex"
           src="/logo_small.svg"
           alt="Lifeness Logo"
           fill
@@ -34,11 +34,9 @@ function LandingPage() {
         />
       </div>
 
-      <BentoGrid className="w-80 sm:w-full">
-        <BentoGridItem className="row-span-2 sm:row-span-3 md:col-span-5 md:row-span-9 lg:col-span-5 lg:row-span-8" />
-        <BentoGridItem className="row-span-2 sm:row-span-3 md:col-span-7 md:row-span-6 lg:col-span-7 lg:row-span-6" />
-        <GithubGridItem className="row-span-2 sm:row-span-3 md:col-span-7 md:row-span-2 lg:col-span-3 lg:row-span-2" />
-        <SigninGridItem className="row-span-2 sm:row-span-3 md:col-span-7 md:row-span-3 lg:col-span-4 lg:row-span-2 order-first md:order-none" />
+      <BentoGrid className="w-80 ">
+        <GithubGridItem className="row-span-2" />
+        <SigninGridItem className="row-span-2" />
       </BentoGrid>
     </main>
   );
@@ -46,8 +44,6 @@ function LandingPage() {
 
 export default function WavyLandingPage() {
   return (
-    <WavyBackground>
-      <LandingPage />
-    </WavyBackground>
+    <LandingPage />
   );
 }

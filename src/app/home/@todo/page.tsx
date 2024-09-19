@@ -234,7 +234,7 @@ export default function Todo() {
             <CustomSpinner className="text-pink-500" size="medium" />
           </div>
         ) : (
-          <ul className="overflow-auto custom-scrollbar pt-1 pr-2">
+          <ul className="mt-2 overflow-auto custom-scrollbar pt-1 pr-2">
             <TodoItem todos={todos} onTodosChange={refreshTodos} />
           </ul>
         )}

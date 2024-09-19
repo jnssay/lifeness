@@ -6,10 +6,10 @@ import Link from "next/link";
 
 const SigninButton = () => {
   return (
-    <Link href="/signin">
+    <Link href="/signin" className="h-full">
       <Button
         variant="ghost"
-        className="transition h-full bg-gradient-to-b from-pink-600 max-w-[1000px] w-full text-white text-2xl p-6 font-bold"
+        className="transition h-full bg-pink-500 max-w-[10] w-full text-white text-2xl p-6 font-bold"
       >
         SIGN IN
       </Button>
